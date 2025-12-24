@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>21 Reasons You Deserve This Smile</title>
+
+<style>
+body {
+  font-family: 'Quicksand', sans-serif;
+  background: #ffeef4;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* ===== PAGE WRAPPER ===== */
+.page {
+  min-height: 100vh;
+  padding-top: 100px; /* moved content down */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== TITLE ===== */
+.love-title {
+  display: none;
+  color: #d6336c;
+  font-size: 36px;
+  margin-bottom: 50px; /* more space */
+  animation: fadeIn 1.5s ease forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== GIFT BOX ===== */
+.gift-container {
+  margin-top: 40px; /* gift box moved lower */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  animation: dance 1s infinite alternate ease-in-out;
+  cursor: pointer;
+}
+@keyframes dance {
+  0% { transform: translateX(-10px) rotate(-3deg); }
+  100% { transform: translateX(10px) rotate(3deg); }
+}
+.gift {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  background: #ff69b4;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.gift::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 100%;
+  background: #fff;
+}
+.gift::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  height: 20px;
+  width: 100%;
+  background: #fff;
+}
+.lid {
+  position: absolute;
+  top: -20px;
+  width: 120px;
+  height: 30px;
+  background: #ff1493;
+  border-radius: 5px 5px 0 0;
+  transform-origin: bottom center;
+  transition: transform 0.5s ease;
+}
+
+/* ===== ENVELOPES ===== */
+.envelopes {
+  display: none;
+  grid-template-columns: repeat(7, 100px);
+  gap: 18px; /* slightly bigger gap */
+  justify-content: center;
+  padding-bottom: 80px;
+}
+.envelope {
+  width: 100px;
+  height: 70px;
+  background: #fff0f5;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border: 2px solid #ff8fa3;
+  border-radius: 6px;
+}
+.flap {
+  width: 100%;
+  height: 50%;
+  background: #ff8fa3;
+  position: absolute;
+  top: 0;
+  clip-path: polygon(50% 60%, 100% 0, 0 0);
+  transform-origin: top center;
+  transition: transform 0.5s ease;
+}
+.heart {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.5);
+  width: 24px;
+  height: 24px;
+  background: red;
+  clip-path: polygon(
+    50% 0%, 61% 15%, 75% 15%, 85% 25%, 85% 40%,
+    50% 75%, 15% 40%, 15% 25%, 25% 15%, 39% 15%
+  );
+}
+.letter {
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  padding: 5px;
+  box-sizing: border-box;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  overflow: hidden;
+  transition: bottom 1s ease;
+}
+
+
+.envelope.open .flap { transform: rotateX(180deg); }
+.envelope.open .letter { bottom: 0; }
+
+.typewriter {
+  border-right: 2px solid black;
+  white-space: pre-wrap;
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <div class="gift-container" id="giftStage">
+    <div class="gift">
+      <div class="lid"></div>
+    </div>
+    <p style="color:#d6336c;font-weight:bold;">Click to open</p>
+  </div>
+
+  <h1 class="love-title" id="title">21 Reasons You Deserve This Smile</h1>
+  <div class="envelopes" id="envelopeStage"></div>
+
+</div>
+
+<script>
+const popSound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_2f3f9c493b.mp3");
+const paperSound = new Audio("https://cdn.pixabay.com/download/audio/2021/08/04/audio_94a1bb4da2.mp3");
+const typeSound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_b3b7402497.mp3");
+
+const gift = document.getElementById("giftStage");
+const envelopesContainer = document.getElementById("envelopeStage");
+const title = document.getElementById("title");
+
+const reasons = [
+  "Reason 1: You make me smile.",
+  "Reason 2: You support me always.",
+  "Reason 3: You understand me.",
+  "Reason 4: You make my days brighter.",
+  "Reason 5: You inspire me.",
+  "Reason 6: You’re an amazing friend.",
+  "Reason 7: You listen.",
+  "Reason 8: You care deeply.",
+  "Reason 9: You’re patient.",
+  "Reason 10: You’re kind.",
+  "Reason 11: You believe in people.",
+  "Reason 12: You comfort others.",
+  "Reason 13: You make life fun.",
+  "Reason 14: You’re thoughtful.",
+  "Reason 15: You’re strong.",
+  "Reason 16: You make people proud.",
+  "Reason 17: You’re dependable.",
+  "Reason 18: You’re genuine.",
+  "Reason 19: You accept people as they are.",
+  "Reason 20: You spread positivity.",
+  "Reason 21: You deserve happiness."
+];
+
+reasons.forEach((reason, index) => {
+  const env = document.createElement("div");
+  env.className = "envelope";
+  env.innerHTML = `
+    <div class="flap"><div class="heart"></div></div>
+    <div class="letter"><div class="typewriter" id="tw${index}"></div></div>
+  `;
+  env.onclick = () => toggleEnvelope(env, reason, `tw${index}`);
+  envelopesContainer.appendChild(env);
+});
+
+function toggleEnvelope(env, reason, id) {
+  const el = document.getElementById(id);
+  if (!env.classList.contains("open")) {
+    env.classList.add("open");
+    paperSound.play();
+    typeEffect(el, reason);
+  } else {
+    env.classList.remove("open");
+    el.textContent = "";
+  }
+}
+
+function typeEffect(el, text) {
+  el.textContent = "";
+  let i = 0;
+  typeSound.currentTime = 0;
+  typeSound.play();
+  const interval = setInterval(() => {
+    el.textContent += text[i++];
+    if (i === text.length) {
+      clearInterval(interval);
+      typeSound.pause();
+    }
+  }, 50);
+}
+
+gift.onclick = () => {
+  document.querySelector(".lid").style.transform = "rotateX(-120deg)";
+  popSound.play();
+  setTimeout(() => {
+    gift.style.display = "none";
+    title.style.display = "block";
+    envelopesContainer.style.display = "grid";
+  }, 800);
+};
+</script>
+
+</body>
+</html>
